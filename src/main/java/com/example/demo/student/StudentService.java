@@ -1,7 +1,11 @@
 package com.example.demo.student;
 
+import java.lang.StackWalker.Option;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,4 +46,26 @@ public class StudentService {
 		studentrepository.deleteById(id);
 	}
 
+	/*
+	 * The Transactional annotation combines multiple writes on a database into a
+	 * single operation
+	 */
+	@Transactional
+	public void updateStudent(Long studentId, String name, String email) {
+
+		Student student = studentrepository.findById(studentId).orElseThrow(
+				() -> new IllegalStateException("student with Id " + studentId + " does not exist"));
+
+		if (name != null && !name.isBlank() && !Objects.equals(student.getName(), name)) {
+			student.setName(name);
+		}
+
+		if (email != null && !email.isBlank() && !Objects.equals(student.getEmail(), email)) {
+			Optional<Student> studentByEmail = studentrepository.findStudentByEmail(email);
+			if (studentByEmail.isPresent()) {
+				throw new IllegalStateException("student with email already exists");
+			}
+			student.setEmail(email);
+		}
+	}
 }
