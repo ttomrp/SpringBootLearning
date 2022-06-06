@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,8 +25,18 @@ public class StudentController {
         this.studentservice = studentservice;
     }
 
+    // retrieves an object from the database
     @GetMapping
 	public List<Student> getStudents() {
 		return studentservice.getStudents();
 	}
+
+    /*
+     * Take request JSON object and map it to Student object.  PostMapping
+     * lets us post this new object to our database.
+     */
+    @PostMapping
+    public void registerNewStudent(@RequestBody Student student) {
+        studentservice.addNewStudent(student);
+    }
 }
