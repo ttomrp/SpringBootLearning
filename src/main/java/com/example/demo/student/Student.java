@@ -11,10 +11,14 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 
 // map class to table in postgresql
 @Entity(name = "Student") // default name is class name, but you can specify table name as well
-@Table
+@Table(name = "student", uniqueConstraints = {
+        // one way to make a column unique
+        @UniqueConstraint(name = "email_address_unique", columnNames = "email_address")
+})
 public class Student {
 
     /*
@@ -43,7 +47,7 @@ public class Student {
     @Column(name = "DOB")
     private LocalDate dob;
 
-    @Column(name = "email_address", unique = true)
+    @Column(name = "email_address")
     private String email;
 
     // @Transient annotation tells us that it doesn't need to be a column in the
