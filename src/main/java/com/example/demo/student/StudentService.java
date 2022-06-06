@@ -22,10 +22,12 @@ public class StudentService {
 		this.studentrepository = studentrepository;
 	}
 
+	// returns list of students in database
 	public List<Student> getStudents() {
 		return studentrepository.findAll();
 	}
 
+	// Adds a student from the sql database.
 	public void addNewStudent(Student student) {
 		Optional<Student> studentByEmail = studentrepository.findStudentByEmail(student.getEmail());
 		if (studentByEmail.isPresent()) {
@@ -37,6 +39,7 @@ public class StudentService {
 		studentrepository.save(student);
 	}
 
+	// Deletes a Student from the sql database
 	public void deleteStudent(Long id) {
 		if (!studentrepository.existsById(id)) {
 			throw new IllegalStateException("student with Id " + id + " does not exist");
@@ -47,7 +50,9 @@ public class StudentService {
 
 	/*
 	 * The Transactional annotation combines multiple writes on a database into a
-	 * single operation
+	 * single operation.
+	 * Updates the Student object using Student class methods. This gets translated
+	 * into SQL code automatically.
 	 */
 	@Transactional
 	public void updateStudent(Long studentId, String name, String email) {
