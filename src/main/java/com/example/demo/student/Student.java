@@ -1,6 +1,7 @@
 package com.example.demo.student;
 
 import java.time.LocalDate;
+import java.time.Period;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 // map class to table in postgresql
 @Entity
@@ -25,23 +27,26 @@ public class Student {
     )
     private long id;
     private String name;
+
+    // this annotation tells us that it doesn't need to be a column in the database
+    // since we can just calculate it each time.
+    @Transient
     private int age;
+
     private LocalDate dob;
     private String email;
 
     public Student() {};
 
-    public Student(long id, String name, int age, LocalDate dob, String email) {
+    public Student(long id, String name, LocalDate dob, String email) {
         this.id = id;
         this.name = name;
-        this.age = age;
         this.dob = dob;
         this.email = email;
     }
 
-    public Student(String name, int age, LocalDate dob, String email) {
+    public Student(String name, LocalDate dob, String email) {
         this.name = name;
-        this.age = age;
         this.dob = dob;
         this.email = email;
     }
@@ -63,12 +68,12 @@ public class Student {
     }
 
     public int getAge() {
-        return this.age;
+        return Period.between(this.dob, LocalDate.now()).getYears();
     }
 
-    public void setAge(int age) {
-        this.age = age;
-    }
+    // public void setAge(int age) {
+    //     this.age = age;
+    // }
 
     public LocalDate getDOB() {
         return this.dob;
