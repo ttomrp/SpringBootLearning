@@ -3,6 +3,7 @@ package com.example.demo.student;
 import java.time.LocalDate;
 import java.time.Period;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,20 +13,43 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 // map class to table in postgresql
-@Entity
+@Entity(name = "Student") // default name is class name, but you can specify table name as well
 @Table
 public class Student {
+
+    /*
+     * Annotation for the id property.
+     * 
+     * @Id tells us that id is a primary key in the Student table in SQL
+     * 
+     * @SequenceGenerator lets us autogenerate Ids from in a sequence. So if our
+     * first Id gets created as 1, then the next object will have an id of
+     * allocationSize from 1, etc. This is the BIG SERIAL data type in SQL.
+     * 
+     * @GeneratedValue gets us a generated value for Id to be placed in the id
+     * property
+     * 
+     * @Column gives us some control over the properties of our SQL column
+     */
     @Id
     @SequenceGenerator(name = "student_sequence", sequenceName = "student_sequence", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "student_sequence")
+    @Column(name = "id", updatable = false)
     private long id;
+
+    @Column(name = "name", nullable = false, columnDefinition = "TEXT")
     private String name;
+
+    @Column(name = "DOB")
     private LocalDate dob;
+
+    @Column(name = "email_address", unique = true)
     private String email;
 
-    // this annotation tells us that it doesn't need to be a column in the database
-    // since we can just calculate it each time.
+    // @Transient annotation tells us that it doesn't need to be a column in the
+    // database since we can just calculate it each time.
     @Transient
+    @Column(name = "age")
     private int age;
 
     // Constructors
