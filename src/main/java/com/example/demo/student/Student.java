@@ -16,27 +16,22 @@ import javax.persistence.Transient;
 @Table
 public class Student {
     @Id
-    @SequenceGenerator(
-        name = "student_sequence",
-        sequenceName = "student_sequence",
-        allocationSize = 1
-    )
-    @GeneratedValue(
-        strategy = GenerationType.SEQUENCE,
-        generator = "student_sequence"
-    )
+    @SequenceGenerator(name = "student_sequence", sequenceName = "student_sequence", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "student_sequence")
     private long id;
     private String name;
+    private LocalDate dob;
+    private String email;
 
     // this annotation tells us that it doesn't need to be a column in the database
     // since we can just calculate it each time.
     @Transient
     private int age;
 
-    private LocalDate dob;
-    private String email;
+    // Constructors
 
-    public Student() {};
+    public Student() {
+    };
 
     public Student(long id, String name, LocalDate dob, String email) {
         this.id = id;
@@ -50,6 +45,8 @@ public class Student {
         this.dob = dob;
         this.email = email;
     }
+
+    // GETTER & SETTER Methods
 
     public long getId() {
         return this.id;
@@ -72,7 +69,7 @@ public class Student {
     }
 
     // public void setAge(int age) {
-    //     this.age = age;
+    // this.age = age;
     // }
 
     public LocalDate getDOB() {
