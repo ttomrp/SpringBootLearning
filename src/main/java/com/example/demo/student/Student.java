@@ -3,10 +3,7 @@ package com.example.demo.student;
 import java.time.LocalDate;
 import java.time.Period;
 
-<<<<<<< HEAD
 import javax.persistence.Column;
-=======
->>>>>>> fac1c1b0d21ed3738ec477f78b24bf9ca4245537
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,7 +13,6 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 // map class to table in postgresql
-<<<<<<< HEAD
 @Entity(name = "Student") // default name is class name, but you can specify table name as well
 @Table
 public class Student {
@@ -39,38 +35,21 @@ public class Student {
     @SequenceGenerator(name = "student_sequence", sequenceName = "student_sequence", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "student_sequence")
     @Column(name = "id", updatable = false)
-=======
-@Entity
-@Table
-public class Student {
-    @Id
-    @SequenceGenerator(name = "student_sequence", sequenceName = "student_sequence", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "student_sequence")
->>>>>>> fac1c1b0d21ed3738ec477f78b24bf9ca4245537
     private long id;
 
     @Column(name = "name", nullable = false, columnDefinition = "TEXT")
     private String name;
-<<<<<<< HEAD
 
     @Column(name = "DOB")
-=======
->>>>>>> fac1c1b0d21ed3738ec477f78b24bf9ca4245537
     private LocalDate dob;
 
     @Column(name = "email_address", unique = true)
     private String email;
 
-<<<<<<< HEAD
     // @Transient annotation tells us that it doesn't need to be a column in the
     // database since we can just calculate it each time.
     @Transient
     @Column(name = "age")
-=======
-    // this annotation tells us that it doesn't need to be a column in the database
-    // since we can just calculate it each time.
-    @Transient
->>>>>>> fac1c1b0d21ed3738ec477f78b24bf9ca4245537
     private int age;
 
     // Constructors
